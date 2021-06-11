@@ -1,16 +1,25 @@
 import requests
 
-sender = input("type your name\n")
+sender = input("Please tell me your name : \n")
 
 bot_message =" "
 
 while bot_message !="Bye":
-    message = input("Type your message\n")
+    
+    message = input("Type your message : \n")
+    
     print("Sending now")
+    
     r=requests.post('http://localhost:5005/webhooks/rest/webhook' , json={"sender": sender, "message":message})
-    print("bot says,", end='')
+    
+    print("Bot says,", end='')
 
-    # print(r.json())
-    for i in r.json():
-        bot_message=i['text']
-        print(bot_message)
+    data = r.json()
+    
+    for i in data:
+        dictionary = i
+        
+        if 'text' in dictionary.keys():
+            print(i['text'])
+        else:
+            print(i['image'])
